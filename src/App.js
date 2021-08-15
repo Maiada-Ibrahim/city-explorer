@@ -1,6 +1,8 @@
 
 import React from 'react'
 import axios from 'axios';
+// import Image from 'react-bootstrap/Image'
+import Card from 'react-bootstrap/Card';
 
 class App extends React.Component {
   constructor(props) {
@@ -8,7 +10,9 @@ class App extends React.Component {
     this.state = {
       cityData: {},
       searchCity: '',
-      showData: false
+      showData: false,
+      showmap :false
+      
     }
 
   }
@@ -28,7 +32,8 @@ class App extends React.Component {
 
     this.setState({
       cityData:resultData.data[0],
-      showData: true
+      showData: true,
+      showmap :true
     })
     console.log('llllll', this.state.cityData)
   
@@ -42,11 +47,31 @@ class App extends React.Component {
          <label > enter city</label>
          <input type="text"  placeholder='enter city' name='city' />
          <button> submite </button>
-         {this.state.showData &&
+         {/* {this.state.showData &&
             <p> {this.state.searchCity} Lat:{this.state.cityData.lat} /Lon:{this.state.cityData.lon} </p>
-          }
-
+            
+          } */}
+          {/* {this.state.showmap && 
+             <img alt='' src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} />
+          } */}
+          
        </form>
+
+        <Card style={{ width: '18rem' }}>
+
+<Card.Body  >
+  <Card.Title> {this.state.showData &&
+            <p> {this.state.searchCity} Lat:{this.state.cityData.lat} /Lon:{this.state.cityData.lon} </p>
+            
+          }</Card.Title>
+ 
+ 
+  {this.state.showmap &&
+    <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} alt='' />
+  }
+
+</Card.Body>
+</Card>
       </div>
     )
   }
