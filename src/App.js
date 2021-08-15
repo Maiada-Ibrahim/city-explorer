@@ -5,7 +5,7 @@ import React from 'react'
   render() {
     return (
       <div>
-        <h2>'hi'</h2>
+        <h2>'thank you'</h2>
       </div>
     )
   }
