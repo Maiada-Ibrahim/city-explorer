@@ -10,8 +10,11 @@ class App extends React.Component {
     this.state = {
       cityData: {},
       searchCity: '',
+      whether:[],
       showData: false,
-      showmap :false
+      showmap :false ,
+      errorshow:false,
+      wethershow:false
       
     }
 
@@ -27,16 +30,32 @@ class App extends React.Component {
 
    
     
-    let resultData =  await axios.get(locurl)
+   try{let resultData =  await axios.get(locurl)
     console.log('llllll', resultData)
 
     this.setState({
       cityData:resultData.data[0],
       showData: true,
-      showmap :true
+      showmap :true,
+      errorshow:false,
     })
     console.log('llllll', this.state.cityData)
-  
+   }
+   catch{
+    this.setState({
+      errorshow:true,
+      showData: false,
+      showmap :false,
+    })
+    let weatherurl = `
+    http://localhost:3001/whether?lat=${this.state.cityData.lat}&lon=${this.state.cityData.lon}&searchQuery=${this.state.searchCity}`;
+    let resultData =  await axios.get(weatherurl)
+    this.setState({
+      whether:resultData.data[0],
+      wethershow: true,
+    
+    })
+   }
 
   }
   render() {
@@ -64,11 +83,20 @@ class App extends React.Component {
             <p> {this.state.searchCity} Lat:{this.state.cityData.lat} /Lon:{this.state.cityData.lon} </p>
             
           }</Card.Title>
- 
+  <Card.Title> {this.state.errorshow &&
+            <p> you have some error </p>
+            
+          }</Card.Title>
  
   {this.state.showmap &&
     <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} alt='' />
   }
+
+<Card.Title> {this.state.wethershow &&
+            <p> {this.state.whether} </p>
+            
+          }</Card.Title>
+
 
 </Card.Body>
 </Card>
