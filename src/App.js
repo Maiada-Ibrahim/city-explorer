@@ -81,6 +81,7 @@ class App extends React.Component {
        </form>
 
         <Card style={{ width: '18rem' }}>
+          
 
 <Card.Body  >
   <Card.Title> {this.state.showData &&
