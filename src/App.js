@@ -3,6 +3,7 @@ import React from 'react'
 import axios from 'axios';
 // import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
+import Wether from './compo/Wether';
 
 class App extends React.Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class App extends React.Component {
       showmap :true,
       errorshow:false,
     })
-    console.log('llllll', this.state.cityData)
+    // console.log('llllll', this.state.cityData)
    }
    catch{
     this.setState({
@@ -52,14 +53,14 @@ class App extends React.Component {
     
    }
    console.log('llllkokojkokjl')
-    let weatherurl = `${process.env.REACT_APP_SERVER_LINK}/whether?lat=${this.state.cityData.lat}&lon=${this.state.cityData.lon}&searchQuery=${this.state.searchCity}`;
+    let weatherurl = `${process.env.REACT_APP_SERVER_LINK}/whethercity?city_name=${this.state.searchCity}`;
     let resultData =  await axios.get(weatherurl)
-    console.log(resultData)
+    console.log('kkkkkkkkk',resultData)
     await this.setState({
-      whether:resultData,
+      whether:resultData.data,
       wethershow: true,
     })
-
+    console.log('kkkkkkkkk',this.state.whether)
   }
   render() {
     return (
@@ -95,16 +96,16 @@ class App extends React.Component {
     <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} alt='' />
   }
 
-<Card.Title> {this.state.wethershow &&
-           <p>whether: {this.state.whether.data[0].description}   date:{this.state.whether.data[1]} </p>
+{/* <Card.Title> {this.state.wethershow &&
+           <p>whether: {this.state.whether.data[0].datetime}    </p>
             
-          }</Card.Title>
+          }</Card.Title> */}
 
 
-</Card.Body>
+          </Card.Body>
 
-</Card>
-
+        </Card>
+<Wether whether = {this.state.whether} />
       </div>
     )
   }
