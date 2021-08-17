@@ -47,15 +47,18 @@ class App extends React.Component {
       showData: false,
       showmap :false,
     })
-    let weatherurl = `
-    http://localhost:3001/whether?lat=${this.state.cityData.lat}&lon=${this.state.cityData.lon}&searchQuery=${this.state.searchCity}`;
-    let resultData =  await axios.get(weatherurl)
-    this.setState({
-      whether:resultData.data[0],
-      wethershow: true,
+
     
-    })
+    
    }
+   console.log('llllkokojkokjl')
+    let weatherurl = `http://localhost:3001/whether?lat=${this.state.cityData.lat}&lon=${this.state.cityData.lon}&searchQuery=${this.state.searchCity}`;
+    let resultData =  await axios.get(weatherurl)
+    console.log(resultData)
+    await this.setState({
+      whether:resultData,
+      wethershow: true,
+    })
 
   }
   render() {
@@ -93,13 +96,15 @@ class App extends React.Component {
   }
 
 <Card.Title> {this.state.wethershow &&
-            <p> {this.state.whether} </p>
+           <p>whether: {this.state.whether.data[0].description}   date:{this.state.whether.data[1]} </p>
             
           }</Card.Title>
 
 
 </Card.Body>
+
 </Card>
+
       </div>
     )
   }
