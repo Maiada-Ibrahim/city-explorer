@@ -4,6 +4,7 @@ import axios from 'axios';
 // import Image from 'react-bootstrap/Image'
 import Card from 'react-bootstrap/Card';
 import Wether from './compo/Wether';
+import Movies from './compo/Movies';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,18 +16,19 @@ class App extends React.Component {
       showData: false,
       showmap :false ,
       errorshow:false,
-      wethershow:false
+      citymoviesdata:[]
       
     }
 
   }
   getlocation = async (event) => {
     event.preventDefault();
+    //--------------------------------------------------location
     await this.setState({
        searchCity:this.state.searchCity= event.target.city.value
     })
  
-    console.log('llllll',event.target.city.value)
+    // console.log('llllll',event.target.city.value)
    let locurl = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchCity}&format=json`
 
    
@@ -48,20 +50,31 @@ class App extends React.Component {
       showData: false,
       showmap :false,
     })
-
-    
-    
    }
-   console.log('llllkokojkokjl')
+
+
+  // --------------------------------------------------------------------------weather
     let weatherurl = `${process.env.REACT_APP_SERVER_LINK}/weather?city=${this.state.searchCity}&format=json`;
     let resultData =  await axios.get(weatherurl)
-    console.log('kkkkkkkkk',resultData)
+    // console.log('kkkkkkkkk',resultData)
     await this.setState({
       whether:resultData.data,
-      wethershow: true,
+      
     })
-    console.log('kkkkkkkkk',this.state.whether)
+    
+    // ---------------------------------------------------------movies
+    let moviesurl = `${process.env.REACT_APP_SERVER_LINK}/movies?cityname=${this.state.searchCity}&format=json`;
+    let moviesresultData =  await axios.get(moviesurl)
+    console.log('kkkkkkkkk',moviesresultData.data)
+    await this.setState({
+      citymoviesdata:moviesresultData.data,
+      
+    })
   }
+  // moviesfun=()=>{
+
+
+  // }
   render() {
     return (
       <div>
@@ -96,17 +109,12 @@ class App extends React.Component {
   {this.state.showmap &&
     <Card.Img variant="top" src={`https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&center=${this.state.cityData.lat},${this.state.cityData.lon}&zoom=15`} alt='' />
   }
-
-{/* <Card.Title> {this.state.wethershow &&
-           <p>whether: {this.state.whether.data[0].datetime}    </p>
-            
-          }</Card.Title> */}
-
-
           </Card.Body>
 
         </Card>
 <Wether whether = {this.state.whether} />
+<Movies citymoviesdata = {this.state.citymoviesdata} />
+
       </div>
     )
   }

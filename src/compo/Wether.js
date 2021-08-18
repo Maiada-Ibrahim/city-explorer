@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Card from 'react-bootstrap/Card';
 
 
@@ -15,8 +15,8 @@ class Wether extends React.Component {
                                 {/* <Card.Img variant="top" src={mov.image_url} /> */}
                                 <Card.Body>
                                     <Card.Text>
-                                        
-                                        <p> {value.data} &nbsp; {value.description} &nbsp; {value.temp}</p>
+
+                                        {value.data} &nbsp; {value.description} &nbsp; {value.temp}
                                     </Card.Text>
                                 </Card.Body>
                             </Card>)
